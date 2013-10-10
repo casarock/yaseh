@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Testbed</title>
+    <script type="text/javascript" src="yaseh.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+    var handle1 = register("myevent", function() {
+        console.log("no Args");
+    });
+
+    var handle2 = register("myevent", function(arg) {
+        console.log("Argument: ", arg);
+    });
+
+    var handle3 = register("mysecondevent", function(arg1, arg2) {
+        console.log("another event with args. ", arguments);
+    });
+
+    // Execute two events one with one without args
+    trigger("myevent", ["arguments included"]);
+
+    // remove noargs from myevent
+    unregister(handle1);
+
+    // Execute with arguments!
+    trigger("myevent", ["Again, but other args"]);
+
+    trigger("mysecondevent", ["first", "second"]);
+
+</script>
+</body>
+</html>

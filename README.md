@@ -1,4 +1,3 @@
-yaseh
-=====
+# Yet another simple event handler
 
-Yet another simple event handler
+Readme should be added soon.
