@@ -5,20 +5,41 @@
 </head>
 <body>
 
+<button id="triggerme">Trigger an event</button>
+
 <script type="text/javascript">
-    var handle1 = register("myevent", function() {
+    var triggerButton = document.getElementById("triggerme");
+
+    var handle1 = register("myevent", function () {
         console.log("no Args");
     });
 
-    var handle2 = register("myevent", function(arg) {
+    var handle2 = register("myevent", function (arg) {
         console.log("Argument: ", arg);
     });
 
-    var handle3 = register("mysecondevent", function(arg1, arg2) {
+    var handle3 = register("mysecondevent", function (arg1, arg2) {
         console.log("another event with args. ", arguments);
     });
 
-    // Execute two events one with one without args
+    var handle4 = register("buttonevent", function () {
+        console.log(triggerButton === this);
+
+        // assume "this" is the button element and trigger will pass the correct context!
+        if (triggerButton === this) {
+            this.innerText = "new Text";
+        }
+        else {
+            console.log("Wrong Context!");
+        }
+    });
+
+    triggerButton.addEventListener("click", function (ev) {
+        // Trigger the event with the element as Context!
+        trigger("buttonevent", [], this);
+    });
+
+    // Execute both events registered for "myevent" one with args and one without args
     trigger("myevent", ["arguments included"]);
 
     // remove noargs from myevent
@@ -28,6 +49,9 @@
     trigger("myevent", ["Again, but other args"]);
 
     trigger("mysecondevent", ["first", "second"]);
+
+    // Trigger button event with wrong context. should write "Wrong Context" to console.
+    trigger("buttonevent");
 
 </script>
 </body>
